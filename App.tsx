@@ -8,12 +8,12 @@
 import React, { useEffect } from 'react';
 import {
   Button,
+  Dimensions,
   Linking,
-  Modal,
   SafeAreaView,
   StatusBar,
   StyleSheet,
-  Text,
+  TextInput,
   useColorScheme,
   View,
 } from 'react-native';
@@ -25,9 +25,16 @@ import {
 import InfoScreen from './components/InfoScreen';
 
 export interface Message {
-  message: string,
-  port: number
+  message: string | undefined,
+  port: number | undefined
 }
+export interface Command {
+  name: string | undefined,
+  message: string | undefined,
+  port: number | undefined
+}
+const displayHeight = Dimensions.get("window").height
+const displaywidth = Dimensions.get("window").width
 
 
 function App(): React.JSX.Element {
@@ -72,59 +79,64 @@ function App(): React.JSX.Element {
 
   return (
 
-    <SafeAreaView style={backgroundStyle}>
+    <SafeAreaView style={styles.safe_area_container}>
       <StatusBar
         barStyle={isDarkMode ? 'light-content' : 'dark-content'}
         backgroundColor={backgroundStyle.backgroundColor}
       />
-      <View style={styles.container}>
-        <Button onPress={startNode} title='Activate NodeJs server' />
-        <Modal
-          visible={displayNoti}
-          animationType='slide'
-          style={styles.modalView}
-        >
-          <InfoScreen message={message} command={method} />
-          <View style={styles.container}>
-            <Button onPress={openURL} title='Open Localhost' />
-            <Button onPress={sendMessage} title='Send Message' />
-            <Button onPress={sendCommand} title='Send Command' />
-            <Button onPress={closeConnection} title='Close Connection' />
+      {
+        !displayNoti ? (
+          <View style={styles.buton_container}>
+            <Button onPress={startNode} title='Activate NodeJs server' />
           </View>
-        </Modal>
-      </View>
+        ) :
+          (
+            <View style={styles.content_container} >
+              <InfoScreen message={message} command={method} />
+              <View style={styles.functions}>
+                <View style={styles.row_button}>
+                  <Button onPress={openURL} title='Open URL'></Button>
+                </View>
+              </View>
+            </View>
+          )
+      }
     </SafeAreaView >
   );
 }
 
 const styles = StyleSheet.create({
-  container: {
+  safe_area_container: {
+    display: 'flex',
+    flexDirection: "column",
+    height: displayHeight
+
+  },
+  buton_container: {
     display: "flex",
     flexDirection: "column",
     justifyContent: "center",
     alignItems: "center",
     alignContent: "center",
+    height: "100%"
   },
-  modalView: {
-    margin: 20,
-    backgroundColor: 'white',
-    borderRadius: 20,
-    padding: 35,
-    alignItems: 'center',
-    shadowColor: '#000',
-    shadowOffset: {
-      width: 0,
-      height: 2,
-    },
-    shadowOpacity: 0.25,
-    shadowRadius: 4,
-    elevation: 5,
+  content_container: {
+    display: "flex",
+    flexDirection: "column",
+    justifyContent: "space-between",
+    alignItems: "center",
+    height: displayHeight
   },
-  modalText: {
-    fontSize: 24,
-    fontWeight: "bold",
-    padding: "5%"
+  functions: {
+    display: "flex",
+    flexDirection: "column",
+    alignItems: "flex-end",
   },
+  row_button: {
+    display: "flex",
+    flexDirection: "row",
+    padding: "1%"
+  }
 });
 
 export default App;
