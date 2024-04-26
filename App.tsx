@@ -24,11 +24,16 @@ import {
 } from 'react-native/Libraries/NewAppScreen';
 import InfoScreen from './components/InfoScreen';
 
+export interface Message {
+  message: string,
+  port: number
+}
+
 
 function App(): React.JSX.Element {
   const isDarkMode = useColorScheme() === 'dark';
   const [displayNoti, setDisplayNoti] = React.useState(false)
-  const [message, setMessage] = React.useState("")
+  const [message, setMessage] = React.useState<Message[]>([])
   const [method, setMethod] = React.useState()
 
   const backgroundStyle = {
@@ -36,9 +41,10 @@ function App(): React.JSX.Element {
   };
   useEffect(() => {
     nodejs.start('main.js');
-    nodejs.channel.addListener('message', (msg) => {
-      console.log('From node: ' + msg);
-      setMessage(msg)
+    nodejs.channel.addListener('message', (msg: Message) => {
+      console.log('From node: ' + JSON.stringify(msg));
+      setMessage(pre => [...pre, msg])
+      console.log(message)
     });
     nodejs.channel.addListener("command", (method) => {
       console.log(`Method : ${JSON.stringify(method)}`)

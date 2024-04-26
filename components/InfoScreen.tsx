@@ -1,14 +1,21 @@
-import { StyleSheet, Text, View } from "react-native";
+import { ScrollView, StyleSheet, Text, View } from "react-native";
+import { Message } from "../App";
 
 type Props = {
-  message: string,
+  message: Message[],
   command: any
 }
 export default function InfoScreen(props: Props) {
   return (
     <View style={styles.container}>
       <View style={styles.message_container}>
-        <Text style={styles.info_text}>Server Message : {props.message}</Text>
+        <ScrollView>
+          {
+            props.message?.map((value, index) => (
+              <Text key={index} style={styles.info_text}>{value.port} : {value.message}</Text>
+            ))
+          }
+        </ScrollView>
       </View>
       <View style={{ height: "5%" }}></View>
       <View style={styles.message_container}>
@@ -31,6 +38,7 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     alignSelf: "flex-start",
     paddingLeft: "3%",
+    maxHeight: "45%",
   },
   info_text: {
     fontSize: 20
