@@ -75,8 +75,8 @@ function App(): React.JSX.Element {
     nodejs.channel.post("command", { name: "Create", port: 3500 })
     setDisplayNoti(true)
   }
-  const openURL = () => {
-    Linking.openURL('http://localhost:3500')
+  const openURL = (port: number) => {
+    Linking.openURL(`http://localhost:${port}`)
   }
   const sendMessage = (message: string) => {
     nodejs.channel.send(message)
@@ -104,6 +104,10 @@ function App(): React.JSX.Element {
               <InfoScreen message={message} command={method} />
               <View style={styles.functions}>
                 <View style={styles.dropdown_with_label}>
+                  <Text style={styles.command_text}>Port</Text>
+                  <TextInput style={styles.textinput} value={port} onChangeText={(text) => setPort(text)} />
+                </View>
+                <View style={styles.dropdown_with_label}>
                   <Text style={styles.command_text}>Message</Text>
                   <TextInput
                     style={styles.textinput}
@@ -129,7 +133,7 @@ function App(): React.JSX.Element {
                 </View>
                 <View style={{ display: "flex", flexDirection: "row", justifyContent: "center" }}>
                   <View style={styles.row_button}>
-                    <Button onPress={openURL} title='Open URL'></Button>
+                    <Button onPress={(e) => { e.preventDefault(); openURL(parseInt(port) || portList[0]) }} title='Open URL' />
                   </View>
                   <View style={styles.row_button}>
                     <Button onPress={(e) => { e.preventDefault(); sendMessage(send); setSend("") }} title='Send Message'></Button>
@@ -150,7 +154,7 @@ const styles = StyleSheet.create({
   safe_area_container: {
     display: 'flex',
     flexDirection: "column",
-    height: displayHeight,
+    maxHeight: displayHeight,
     maxWidth: displaywidth
   },
   buton_container: {
@@ -165,7 +169,7 @@ const styles = StyleSheet.create({
     display: "flex",
     flexDirection: "column",
     alignItems: "center",
-    height: displayHeight
+    justifyContent: "space-around"
   },
   functions: {
     display: "flex",

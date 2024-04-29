@@ -1,6 +1,8 @@
-import { ScrollView, StyleSheet, Text, View, processColor } from "react-native";
+import { Dimensions, ScrollView, StyleSheet, Text, View, processColor } from "react-native";
 import { Command, Message } from "../App";
 
+const displayHeight = Dimensions.get("window").height
+const displaywidth = Dimensions.get("window").width
 type Props = {
   message: Message[],
   command: Command[]
@@ -48,21 +50,17 @@ const styles = StyleSheet.create({
   message_log_container: {
     display: "flex",
     flexDirection: "row",
-    alignSelf: "flex-start",
     paddingLeft: "3%",
-    maxHeight: "40%",
-    minHeight: "25%",
+    height: displayHeight * 0.25,
     borderWidth: 2,
     borderColor: "#000000"
   },
   command_log_container: {
     display: "flex",
     flexDirection: "row",
-    alignSelf: "flex-start",
     paddingLeft: "3%",
     width: "100%",
-    maxHeight: "40%",
-    minHeight: "25%",
+    height: displayHeight * 0.25,
     borderWidth: 2,
     borderColor: "#2ecc71"
   },

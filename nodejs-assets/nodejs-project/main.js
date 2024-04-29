@@ -7,6 +7,20 @@ const path = require('path');
 class serverProvider {
   servers = new Map();
   createServer(port) {
+    if (port <= 0 || port > 8080) {
+      rn_bridge.channel.send({
+        message: 'Invalid Port',
+        port: 0,
+      });
+      return;
+    }
+    if (this.servers.has(port)) {
+      rn_bridge.channel.send({
+        message: 'Port taken',
+        port: 0,
+      });
+      return;
+    }
     const s = http
       .createServer(function (req, res) {
         res.write('Hello Word from port: ' + port);
@@ -40,14 +54,7 @@ rn_bridge.channel.on('message', msg => {
 });
 rn_bridge.channel.on('command', method => {
   if (method.name == 'Create') {
-    try {
-      servers.createServer(method.port);
-    } catch (error) {
-      rn_bridge.channel.send({
-        message: 'This port is already taken, please change port and try again',
-        port: port,
-      });
-    }
+    servers.createServer(method.port);
   } else if (method.name == 'Delete') {
     servers.deleteServer(method.port);
   } else {
