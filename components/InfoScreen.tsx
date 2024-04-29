@@ -1,9 +1,9 @@
 import { ScrollView, StyleSheet, Text, View, processColor } from "react-native";
-import { Message } from "../App";
+import { Command, Message } from "../App";
 
 type Props = {
   message: Message[],
-  command: any
+  command: Command[]
 }
 export default function InfoScreen(props: Props) {
   return (
@@ -13,7 +13,7 @@ export default function InfoScreen(props: Props) {
           {
             props.message?.map((value, index) => (
               <View style={styles.log_element_row} key={index}>
-                <Text key={index} style={styles.name_text}>{value.port} :</Text>
+                <Text style={styles.name_text}>{value.port} :</Text>
                 <Text style={styles.info_text}>{value.message}</Text>
               </View>
             ))
@@ -22,8 +22,16 @@ export default function InfoScreen(props: Props) {
       </View>
       <View style={{ height: "5%" }}></View>
       <View style={styles.command_log_container}>
-        <Text style={styles.name_text}>{props.command.name}: </Text>
-        <Text style={styles.info_text}>{props.command.message}: </Text>
+        <ScrollView>
+          {
+            props.command?.map((value, index) => (
+              <View style={styles.log_element_row} key={index}>
+                <Text style={styles.name_text}>{value.name}: </Text>
+                <Text style={styles.info_text}>{value.message}: </Text>
+              </View>
+            ))
+          }
+        </ScrollView>
       </View>
     </View>
   )
