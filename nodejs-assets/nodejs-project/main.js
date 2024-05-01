@@ -7,7 +7,7 @@ const path = require('path');
 class serverProvider {
   servers = new Map();
   createServer(port) {
-    if (port <= 0 || port > 8080) {
+    if (port <= 0 || port > 8080 || isNaN(port)) {
       rn_bridge.channel.send({
         message: 'Invalid Port',
         port: 0,
@@ -35,7 +35,12 @@ class serverProvider {
   }
   deleteServer(port) {
     if (this.servers.has(port)) {
+      this.servers.get(port).close();
       this.servers.delete(port);
+      rn_bridge.channel.send({
+        message: 'Port deleted',
+        port: port,
+      });
     } else {
       rn_bridge.channel.send({
         message: 'The port did not exists',
@@ -48,7 +53,7 @@ const servers = new serverProvider();
 rn_bridge.channel.post('command', {name: 'Open', message: 'Connection Open'});
 rn_bridge.channel.on('message', msg => {
   rn_bridge.channel.send({
-    message: msg,
+    message: msg || 'Default Message',
     port: 0000,
   });
 });

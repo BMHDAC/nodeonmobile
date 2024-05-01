@@ -7,6 +7,7 @@
 
 import React, { useEffect } from 'react';
 import {
+  Alert,
   Button,
   Dimensions,
   Linking,
