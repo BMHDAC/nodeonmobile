@@ -23,7 +23,7 @@ class serverProvider {
     }
     const s = http
       .createServer(function (req, res) {
-        res.write('Hello Word from port: ' + port);
+        res.write(`<h1>Hello Word from port: ${port}</h1> `);
         res.end();
       })
       .listen(port);
