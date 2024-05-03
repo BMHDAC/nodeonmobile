@@ -63,6 +63,10 @@ rn_bridge.channel.on('command', method => {
   } else if (method.name == 'Delete') {
     servers.deleteServer(method.port);
   } else {
-    rn_bridge.channel.post('command', method);
+    rn_bridge.channel.post('command', {
+      name: method.name || 'No name',
+      message: method.message || 'Please send a valid command',
+      port: method.port || 0,
+    });
   }
 });
