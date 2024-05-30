@@ -59,6 +59,7 @@ function App(): React.JSX.Element {
   const backgroundStyle = {
     backgroundColor: isDarkMode ? Colors.darker : Colors.lighter,
   };
+
   useEffect(() => {
     nodejs.start('main.js');
     nodejs.channel.addListener('message', (msg: Message) => {

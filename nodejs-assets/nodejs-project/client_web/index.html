@@ -3,21 +3,19 @@
   <head>
     <meta charset="utf-8" />
     <title>My first three.js app</title>
-    <style>
-      body {
-        margin: 0;
-      }
-    </style>
-    <script type="importmap">
-      {
-        "imports": {
-          "three": "https://cdn.jsdelivr.net/npm/three@0.164.1/build/three.module.js",
-          "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.164.1/examples/jsm/"
-        }
-      }
-    </script>
+    <link rel="stylesheet" href="style.css" />
+    <script
+      type="module"
+      src="https://cdnjs.cloudflare.com/ajax/libs/simplex-noise/2.4.0/simplex-noise.min.js"></script>
+    <script
+      type="module"
+      src="https://cdn.jsdelivr.net/npm/three@0.121.1/build/three.min.js"></script>
+    <script
+      type="module"
+      src="https://cdn.jsdelivr.net/npm/three@0.121.1/examples/js/controls/OrbitControls.js"></script>
   </head>
   <body>
-    <script type="module" src="index.js"></script>
+    <div id="canvas_container"></div>
+    <script type="module" src="./index.js"></script>
   </body>
 </html>

@@ -30,8 +30,11 @@ class serverProvider {
             res.end(content);
           })
           .catch(err => {
-            res.writeHead(500);
-            res.end('<h1> Unable to load the page </h1>');
+            fs.readFile(__dirname + '/client_web/404.html').then(content => {
+              res.setHeader('Content-Type', 'text/html');
+              res.writeHead(500);
+              res.end(content);
+            });
           });
       })
       .listen(port);
