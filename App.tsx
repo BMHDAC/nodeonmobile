@@ -7,9 +7,7 @@
 
 import React, { useEffect } from 'react';
 import {
-  Alert,
   Button,
-  Dimensions,
   Linking,
   SafeAreaView,
   StatusBar,
@@ -41,13 +39,10 @@ const commandList = [
   { label: "Delete", value: "Delete" },
   { label: "Close", value: "Close" }
 ];
-const displayHeight = Dimensions.get("window").height
-const displaywidth = Dimensions.get("window").width
 
 
 function App(): React.JSX.Element {
   const isDarkMode = useColorScheme() === 'dark';
-  const [displayNoti, setDisplayNoti] = React.useState(true)
   const [message, setMessage] = React.useState<Message[]>([])
   const [method, setMethod] = React.useState<Command[]>([])
   const [port, setPort] = React.useState<string>("")
@@ -73,10 +68,6 @@ function App(): React.JSX.Element {
     })
   }, [])
 
-  const startNode = () => {
-    nodejs.channel.post("command", { name: "Create", port: 3500 })
-    setDisplayNoti(true)
-  }
   const openURL = (port: number) => {
     Linking.openURL(`http://localhost:${port}`)
   }
@@ -95,59 +86,50 @@ function App(): React.JSX.Element {
         barStyle={isDarkMode ? 'light-content' : 'dark-content'}
         backgroundColor={backgroundStyle.backgroundColor}
       />
-      {
-        !displayNoti ? (
-          <View style={styles.buton_container}>
-            <Button onPress={startNode} title='Activate NodeJs server' />
+      <View style={styles.content_container} >
+        <InfoScreen message={message} command={method} />
+        <View style={styles.functions}>
+          <View style={styles.dropdown_with_label}>
+            <Text style={styles.command_text}>Port</Text>
+            <TextInput style={styles.textinput} value={port} onChangeText={(text) => setPort(text)} />
           </View>
-        ) :
-          (
-            <View style={styles.content_container} >
-              <InfoScreen message={message} command={method} />
-              <View style={styles.functions}>
-                <View style={styles.dropdown_with_label}>
-                  <Text style={styles.command_text}>Port</Text>
-                  <TextInput style={styles.textinput} value={port} onChangeText={(text) => setPort(text)} />
-                </View>
-                <View style={styles.dropdown_with_label}>
-                  <Text style={styles.command_text}>Message</Text>
-                  <TextInput
-                    style={styles.textinput}
-                    value={send}
-                    onChangeText={(text) => {
-                      setSend(text)
-                    }}
-                    placeholder='Enter message'
-                  />
-                </View>
-                <View style={styles.dropdown_with_label}  >
-                  <Text style={styles.command_text}>Command</Text>
-                  <Dropdown
-                    style={styles.dropdown}
-                    value={command}
-                    data={commandList}
-                    labelField="label"
-                    valueField="value"
-                    onChange={item => {
-                      setCommand(item.value)
-                    }}
-                  />
-                </View>
-                <View style={{ display: "flex", flexDirection: "row", justifyContent: "center" }}>
-                  <View style={styles.row_button}>
-                    <Button onPress={(e) => { e.preventDefault(); openURL(parseInt(port) || portList[0]) }} title='Open URL' />
-                  </View>
-                  <View style={styles.row_button}>
-                    <Button onPress={(e) => { e.preventDefault(); sendMessage(send); setSend("") }} title='Send Message'></Button>
-                  </View>
-                  <View style={styles.row_button}>
-                    <Button onPress={(e) => { e.preventDefault(); sendCommand(command, send, port); setSend(""); setCommand("") }} title='Send Command'></Button>
-                  </View>
-                </View>
-              </View>
+          <View style={styles.dropdown_with_label}>
+            <Text style={styles.command_text}>Message</Text>
+            <TextInput
+              style={styles.textinput}
+              value={send}
+              onChangeText={(text) => {
+                setSend(text)
+              }}
+              placeholder='Enter message'
+            />
+          </View>
+          <View style={styles.dropdown_with_label}  >
+            <Text style={styles.command_text}>Command</Text>
+            <Dropdown
+              style={styles.dropdown}
+              value={command}
+              data={commandList}
+              labelField="label"
+              valueField="value"
+              onChange={item => {
+                setCommand(item.value)
+              }}
+            />
+          </View>
+          <View style={styles.buton_container}>
+            <View style={styles.row_button}>
+              <Button onPress={(e) => { e.preventDefault(); openURL(parseInt(port) || portList[0]) }} title='Open URL' />
             </View>
-          )
-      }
+            <View style={styles.row_button}>
+              <Button onPress={(e) => { e.preventDefault(); sendMessage(send); setSend("") }} title='Send Message'></Button>
+            </View>
+            <View style={styles.row_button}>
+              <Button onPress={(e) => { e.preventDefault(); sendCommand(command, send, port); setSend(""); setCommand("") }} title='Send Command'></Button>
+            </View>
+          </View>
+        </View>
+      </View>
     </SafeAreaView >
   );
 }
@@ -155,26 +137,27 @@ function App(): React.JSX.Element {
 const styles = StyleSheet.create({
   safe_area_container: {
     display: 'flex',
+    flex: 1,
     flexDirection: "column",
-    maxHeight: displayHeight,
-    maxWidth: displaywidth
   },
   buton_container: {
     display: "flex",
-    flexDirection: "column",
-    justifyContent: "center",
-    alignItems: "center",
-    alignContent: "center",
-    height: "100%"
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignContent: "flex-start",
   },
   content_container: {
     display: "flex",
     flexDirection: "column",
-    alignItems: "center",
-    justifyContent: "space-around"
+    height: "100%",
+    maxHeight: "100%",
+    alignContent: "flex-start",
+    justifyContent: "space-between",
   },
   functions: {
     display: "flex",
+    height: "30%",
+    maxHeight: "30%",
     flexDirection: "column",
   },
   row_button: {
@@ -187,13 +170,14 @@ const styles = StyleSheet.create({
   dropdown_with_label: {
     display: "flex",
     flexDirection: "row",
-    width: displaywidth,
+    maxHeight: "30%",
+    width: "100%",
     padding: "2%",
     justifyContent: 'space-between',
     alignItems: 'center'
   },
   dropdown: {
-    width: displaywidth * 0.6,
+    width: "60%",
     padding: "1%",
   },
   command_text: {
@@ -204,7 +188,7 @@ const styles = StyleSheet.create({
     fontSize: 18,
     height: "auto",
     padding: "1%",
-    width: displaywidth * 0.6,
+    width: "60%",
     borderWidth: 1,
     borderColor: "#959796"
   }

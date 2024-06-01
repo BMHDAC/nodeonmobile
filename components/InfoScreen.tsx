@@ -10,6 +10,7 @@ type Props = {
 export default function InfoScreen(props: Props) {
   return (
     <View style={styles.container}>
+      <Text style={styles.des_text}>Echo Message</Text>
       <View style={styles.message_log_container}>
         <ScrollView>
           {
@@ -22,7 +23,7 @@ export default function InfoScreen(props: Props) {
           }
         </ScrollView>
       </View>
-      <View style={{ height: "5%" }}></View>
+      <Text style={styles.des_text}>Command Response</Text>
       <View style={styles.command_log_container}>
         <ScrollView>
           {
@@ -43,15 +44,18 @@ const styles = StyleSheet.create({
   container: {
     display: "flex",
     flexDirection: "column",
-    paddingTop: "5%",
-    alignItems: "center",
+    justifyContent: "space-evenly",
+    alignContent: "flex-start",
     width: "100%",
+    height: "50%",
+    maxHeight: "50%",
   },
   message_log_container: {
     display: "flex",
     flexDirection: "row",
     paddingLeft: "3%",
-    height: displayHeight * 0.25,
+    height: "45%",
+    maxHeight: "45%",
     borderWidth: 2,
     borderColor: "#000000"
   },
@@ -59,8 +63,8 @@ const styles = StyleSheet.create({
     display: "flex",
     flexDirection: "row",
     paddingLeft: "3%",
-    width: "100%",
-    height: displayHeight * 0.25,
+    height: "45%",
+    maxHeight: "45%",
     borderWidth: 2,
     borderColor: "#2ecc71"
   },
@@ -74,5 +78,9 @@ const styles = StyleSheet.create({
   log_element_row: {
     display: "flex",
     flexDirection: "row"
+  },
+  des_text: {
+    fontSize: 20,
+    color: "blue"
   }
 })
