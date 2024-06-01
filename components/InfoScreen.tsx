@@ -44,17 +44,15 @@ const styles = StyleSheet.create({
   container: {
     display: "flex",
     flexDirection: "column",
-    justifyContent: "space-evenly",
+    justifyContent: "flex-start",
     alignContent: "flex-start",
-    width: "100%",
-    height: "50%",
     maxHeight: "50%",
   },
   message_log_container: {
     display: "flex",
     flexDirection: "row",
     paddingLeft: "3%",
-    height: "45%",
+    minHeight: "10%",
     maxHeight: "45%",
     borderWidth: 2,
     borderColor: "#000000"
@@ -63,7 +61,7 @@ const styles = StyleSheet.create({
     display: "flex",
     flexDirection: "row",
     paddingLeft: "3%",
-    height: "45%",
+    minHeight: "10%",
     maxHeight: "45%",
     borderWidth: 2,
     borderColor: "#2ecc71"

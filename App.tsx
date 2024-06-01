@@ -148,9 +148,9 @@ const styles = StyleSheet.create({
   },
   content_container: {
     display: "flex",
+    height: "90%",
+    maxHeight: "90%",
     flexDirection: "column",
-    height: "100%",
-    maxHeight: "100%",
     alignContent: "flex-start",
     justifyContent: "space-between",
   },
@@ -170,7 +170,6 @@ const styles = StyleSheet.create({
   dropdown_with_label: {
     display: "flex",
     flexDirection: "row",
-    maxHeight: "30%",
     width: "100%",
     padding: "2%",
     justifyContent: 'space-between',
