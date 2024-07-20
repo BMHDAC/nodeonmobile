@@ -8,16 +8,16 @@ class serverProvider {
 
   createServer(port) {
     if (port <= 0 || port > 8080 || isNaN(port)) {
-      rn_bridge.channel.send({
-        message: 'Invalid Port',
-        port: 0,
+      rn_bridge.channel.post('command', {
+        name: 'Error',
+        message: 'Invalid port',
       });
       return;
     }
     if (this.servers.has(port)) {
-      rn_bridge.channel.send({
-        message: 'Port taken',
-        port: 0,
+      rn_bridge.channel.post('command', {
+        name: 'Error',
+        message: `Port ${port} taken`,
       });
       return;
     }
@@ -40,9 +40,9 @@ class serverProvider {
       .listen(port);
 
     this.servers.set(port, s);
-    rn_bridge.channel.send({
-      message: 'Port listening',
-      port: port,
+    rn_bridge.channel.post('command', {
+      name: 'Success',
+      message: `Port ${port} listening`,
     });
   }
 
@@ -50,14 +50,14 @@ class serverProvider {
     if (this.servers.has(port)) {
       this.servers.get(port).close();
       this.servers.delete(port);
-      rn_bridge.channel.send({
-        message: 'Port deleted',
-        port: port,
+      rn_bridge.channel.post('command', {
+        name: 'Success',
+        message: `Port ${port} deleted`,
       });
     } else {
-      rn_bridge.channel.send({
-        message: 'The port did not exists',
-        port: port,
+      rn_bridge.channel.post('command', {
+        name: 'Error',
+        message: `The port ${port} does not exists`,
       });
     }
   }
