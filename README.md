@@ -25,11 +25,16 @@
 - Tại thư mục nodejs-assets/nodejs-project, chạy lệnh tương tự
     `npm install`
 
+## Bundle Javascript cho backend
+- Tại thư mục gốc chạy lệnh `npx webpack`
+- Kiểm tra file ở thư mục **nodejs-assets/nodejs-project/dist/index.js** có tồn tại
+
 ---
 # Chạy ứng dụng 
 ---
 
 ## Chạy ở local machine
+- Thực hiện tất cả các bước ở hướng dẫn cài đặt trước khi chạy.
 - Khởi động android studio, khởi động emulator.
 - Mở một shell hoặc terminal ở thư mục gốc của project. Chạy lệnh `npm start`, hoặc `npm run android`.
 
