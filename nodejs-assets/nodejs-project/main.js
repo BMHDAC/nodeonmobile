@@ -23,7 +23,7 @@ class serverProvider {
     }
     const s = http
       .createServer((req, res) => {
-        fs.readFile(__dirname + '/client_web' + req?.url)
+        fs.readFile(__dirname + '/dist' + req?.url)
           .then(content => {
             res.setHeader('Content-Type', parseContentType(req.url));
             res.writeHead(200);
