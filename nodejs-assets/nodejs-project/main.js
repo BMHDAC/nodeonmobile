@@ -30,7 +30,7 @@ class serverProvider {
             res.end(content);
           })
           .catch(err => {
-            fs.readFile(__dirname + '/client_web/404.html').then(content => {
+            fs.readFile(__dirname + '/dist/404.html').then(content => {
               res.setHeader('Content-Type', 'text/html');
               res.writeHead(500);
               res.end(content);
